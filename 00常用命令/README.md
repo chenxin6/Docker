@@ -6,6 +6,7 @@
 | docker pull | 从指定的registry中下载镜像 | `docker pull maimidoudou6-registry.cn-beijing.cr.aliyuncs.com/base/centos:7.6.1810` |
 | docker images | 列出本地所有镜像 |  |
 | docker rmi | 删除镜像 | `docker rmi maimidoudou6-registry.cn-beijing.cr.aliyuncs.com/base/centos:7.6.1810` |
+| docker -H 192.168.56.2:2375 ps -a | 远程操作查看192.168.56.2宿主机上的所有容器，192.168.56.2宿主机上需要更改配置详见`03网络相关` | 高级用法 |
 ## 容器相关的常用命令
 | 命令 | 解释 | 备注 |
 | ----- | ----- | ----- |
@@ -24,4 +25,24 @@
 | docker exec -it b1 /bin/sh | 命令行登陆进 b1 容器中，其中 /bin/sh 可以灵活运用从而实现高级操作，exit退出后不会关闭容器 | *非常常用* |
 | docker attach b1 | 直接登陆进 b1 容器中，即容器运行的主程序中，如果此时容器运行的主程序是 /bin/sh 则 exit 之后会直接关闭容器，因为容器的运行是由主程序支撑起来的 | *非常常用* |
 | docker tag | 给镜像打标签，打标签不是覆盖，同一个镜像可以有多个标签<br>原始镜像有标签则 docker tag 旧镜像:旧标签 新镜像:新标签<br>原始镜像无标签则 docker tag ID号 新镜像:新标签 | *非常常用* |
+## 容器网络相关的常用命令
+| 命令 | 解释 | 备注 |
+| ----- | ----- | ----- |
+| `docker run --name b1 --network container:b2 --rm busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b1 并且与容器 b2 共享网络命名空间，当关闭容器时就删除该容器 | *非常常用* |
+| `docker run --name b1 --network host --rm busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b1 并且与宿主机共享网络命名空间，当关闭容器时就删除该容器 | *非常常用* |
+| `docker run --name b1 -it --network bridge --hostname b1.test.com busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b1 并且是交互式运行，网络模式为桥接模式并指定主机名为 b1.test.com，如果想加本地主机名解析则添加`--add-host "www.baidu.com:182.61.200.7"`，如果想指定 dns 服务器则添加`--dns 8.8.8.8`，如果想加搜索域则添加`--dns-search ilinux.io` | *非常常用* |
+| `docker run --name b1 -p 10080:80 registry.cn-hangzhou.aliyuncs.com/maimidoudou6/mybusybox` | 使用 registry.cn-hangzhou.aliyuncs.com/maimidoudou6/mybusybox 镜像创建容器并运行，该容器的名字为 b1 利用 NAT 网络地址暴露端口，将容器的端口80映射宿主机端口10080， | *非常常用* |
+
+- `-p 80`将容器端口80映射宿主机所有地址的一个动态端口
+- `-p 80:90`将容器端口90映射宿主机所有地址的80端口
+- `-p 192.168.1.1::80`将容器端口80映射宿主机192.168.1.1的一个动态端口
+- `-p 192.168.1.1:90:80`将容器端口80映射宿主机192.168.1.1的90端口
+
+动态端口即随机端口，具体的映射结果可以通过命令`docker port`查看，注意宿主机一个端口已经被一个容器映射所占用就不能再建立一个容器映射宿主机的该端口
+
+- `iptables -t nat -vnL`宿主机运行该命令可查看映射结果
+- `netstat -nlp`容器中运行该命令查看端口监听情况
+
+
+
 
