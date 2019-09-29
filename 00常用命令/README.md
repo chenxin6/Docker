@@ -42,7 +42,10 @@
 
 - `iptables -t nat -vnL`宿主机运行该命令可查看映射结果
 - `netstat -nlp`容器中运行该命令查看端口监听情况
-
-
-
+## 容器存储卷相关的常用命令
+| 命令 | 解释 | 备注 |
+| ----- | ----- | ----- |
+| `docker run --name b1 -it -v /data/volume/b1:/data busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b1 并且是交互式运行，容器中的 /data 与宿主机 /data/volume/b1 相关联，**注意容器中原本是没有 /data 这个目录的** | *非常常用* |
+| `docker run --name b1 -it -v /data busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b1 并且是交互式运行，容器中的 /data 与 docker 管理的某个卷相关联，**注意容器中原本是没有 /data 这个目录的** |  |
+| `docker run --name b2 -it --volumes-from b1 busybox:latest` | 使用 busybox:latest 镜像创建容器并运行，该容器的名字为 b2 并且是交互式运行，容器 b2 和容器 b1 使用相同的存储卷 |  |
 
