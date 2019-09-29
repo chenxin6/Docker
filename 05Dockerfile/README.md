@@ -43,3 +43,28 @@ RUN 构建镜像时要运行的命令，可以通过 && 将多个命令连起来
 
 CMD 类似于 RUN 指令但 CMD 是指启动为容器时所要运行的命令，该命令运行结束后容器也将终止，它可以被 docker run 的命令中的选项所覆盖。CMD 有三种格式，前两种同 RUN，第三种是`CMD ["<param1>", "<param2>"]`用于为 ENTRYPOINT 指令提供默认参数
 
+# Demo 演示
+## 目录结构
+```
+TOP
+└───Dockerfile          构建镜像的文件
+```
+## Dockerfile 的内容
+
+```
+FROM registry.cn-hangzhou.aliyuncs.com/maimidoudou6/mybusybox
+LABEL maintainer="maimidoudou6 <maimidoudou6@gmail.com>" app="httpd"
+
+ENV WEB_DOC_ROOT="/data/web/html/"
+RUN echo '<h1>Dockerfile hello world</h1>' > ${WEB_DOC_ROOT}index.html
+
+#CMD /bin/httpd -f -h ${WEB_DOC_ROOT}
+CMD ["/bin/sh", "-c", "/bin/httpd -f -h ${WEB_DOC_ROOT}"]
+```
+## 构建
+
+在 TOP 目录底下运行该命令构建`docker build -t mybusybox:latest ./`
+
+## 创建容器并检查是否正常
+
+`docker run --name t1 --rm -p 10080:80 mybusybox`创建容器后`curl 127.0.0.1:10080`
