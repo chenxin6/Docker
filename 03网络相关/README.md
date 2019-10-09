@@ -57,6 +57,13 @@ Docker 使用了 Linux 的 Namespaces 技术来进行资源隔离，如 PID Name
         ```
         此条规则就是对宿主机 eth0 收到的目的端口为10080的 tcp 流量进行 DNAT 转换，将流量发往172.17.0.2:80，也就是我们上面创建的容器。所以，外界只需访问10.10.101.105:10080就可以访问到容器中的服务。
     - **如果此时再用这个镜像创建一个容器 b2，那么端口映射就不能再是10080:80否则两个容器不能同时启动**
+    - **此时也不需要通过如下配置iptables来开放宿主机的10080端口，如果配置了反而会导致不能正常运行**
+        ```
+        -A INPUT -m state --state NEW -m udp -p udp --dport 10080 -j ACCEPT
+        -A INPUT -m state --state NEW -m udp -p udp --sport 10080 -j ACCEPT
+        -A INPUT -m state --state NEW -m tcp -p tcp --dport 10080 -j ACCEPT
+        -A INPUT -m state --state NEW -m tcp -p tcp --sport 10080 -j ACCEPT
+        ```
 
 ## 其他
 
