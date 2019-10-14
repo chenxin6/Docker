@@ -19,11 +19,11 @@
 通过 Control Group 实现用户空间的资源分配，镜像是静态的，容器是动态的所以具有生命周期
 
 ## 安装 Docker
-### Linux 安装 Docker
+### Linux 安装 Docker CE
 
 1. `wget https://mirrors.tuna.tsinghua.edu.cn/docker-ce/linux/centos/docker-ce.repo`
-2. 下载到 /etc/yum.repos.d/
-3. 修改文件，替换 `https://download.docker.com/` 为 `https://mirrors.tuna.tsinghua.edu.cn/docker-ce/`
+2. 命令行 `sed -i 's/https:\/\/download.docker.com\//https:\/\/mirrors.tuna.tsinghua.edu.cn\/docker-ce\//g' docker-ce.repo` 修改文件，即替换 `https://download.docker.com/` 为 `https://mirrors.tuna.tsinghua.edu.cn/docker-ce/`
+3. 将文件移动到 /etc/yum.repos.d/
 4. 命令行 `yum install docker-ce`
 5. 创建配置文件 /etc/docker/daemon.json 并输入如下内容：
     ```
@@ -34,7 +34,24 @@
 6. 命令行 `systemctl restart docker.service` 启动服务
 7. 命令行 `docker --version` 检查是否成功
 8. 命令行 `systemctl enable docker.service` 开启启动
+9. 为了使当前用户具有使用 docker 命令的权限，需要依次运行如下命令：
+    ```
+    sudo groupadd docker
+    sudo gpasswd -a ${USER} docker
+    systemctl restart docker
+    newgrp - docker
+    ```
+
+### Linux 安装 Docker Compose
+
+在安装了 Docker CE 的基础上依次运行如下命令：
+
+```
+sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+docker-compose --version
+```
 
 ### Mac 安装 Docker
 
-Google 搜索 docker for mac
+Google 搜索 docker for mac，通常安装的是套装，既包含 Docker CE 又包含 Docker Compose 等组件
