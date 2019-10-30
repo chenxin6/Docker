@@ -1,0 +1,1 @@
+docker run --name mynginx --rm -P -e "PORT=8080" mynginx
