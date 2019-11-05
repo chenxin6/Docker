@@ -44,10 +44,10 @@
 
 ### Linux 安装 Docker Compose
 
-在安装了 Docker CE 的基础上依次运行如下命令：
+Docker Compose 是 Docker 的单机编排工具，它的安装需要在安装了 Docker CE 的基础上依次运行如下命令：
 
 ```
-sudo curl -L https://github.com/docker/compose/releases/download/1.16.1/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 docker-compose --version
 ```
