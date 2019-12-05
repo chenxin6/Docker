@@ -36,7 +36,7 @@ sh install.sh
 
 ```
 # 密码是Harbor12345
-docker login --username=admin 127.168.126.27
+docker login --username=admin 192.168.126.27
 # 给一个镜像打上新标签
 docker tag goharbor/nginx-photon:v1.8.0 192.168.126.27/library/nginx-photon:latest
 # 推送

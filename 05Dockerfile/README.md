@@ -55,7 +55,7 @@ ENTRYPOINT `ENTRYPOINT /bin/httpd -f -h ${WEB_DOC_ROOT}`同上默认是使用`/b
 - 例2，正确的写法
     ```
     CMD ["/bin/httpd", "-f", "-h ${WEB_DOC_ROOT}"]
-    ENTRYPOINT ["/bin/sh" "-c"]
+    ENTRYPOINT ["/bin/sh", "-c"]
     ```
 
 HEALTHCHECK 健康检查
