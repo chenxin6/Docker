@@ -3,6 +3,7 @@
 在 docker run 或者 docker create 的时候设置资源限制
 
 ## 内存相关的参数说明
+
 | --memory-swap | --memory | 功能 |
 | ----- | ----- | ----- |
 | 正数 S | 正数 M | 容器可用总空间为 S，其中 ram 为 M，swap为 S - M，若 S = M，则无可用 swap 资源 |
