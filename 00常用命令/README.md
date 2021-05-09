@@ -8,7 +8,7 @@
 | docker images | 列出本地所有镜像 |  |
 | docker rmi | 删除镜像 | `docker rmi maimidoudou6-registry.cn-beijing.cr.aliyuncs.com/base/centos:7.6.1810` |
 | docker -H 192.168.56.2:2375 ps -a | 远程操作查看192.168.56.2宿主机上的所有容器，192.168.56.2宿主机上需要更改配置详见`03网络相关`中的`其他` | 高级用法 |
-| docker image ls -q | 列出本地所有镜像的 ID | `rpm -qa | grep openjdk | xargs -I {} sudo rpm -e --nodeps {}`这个命令是删除所有安装了的 openjdk，可以模仿这个进行所有镜像的删除 |
+| docker image ls -q | 列出本地所有镜像的 ID | `rpm -qa \| grep openjdk \| xargs -I {} sudo rpm -e --nodeps {}`这个命令是删除所有安装了的 openjdk，可以模仿这个进行所有镜像的删除 |
 
 ## 容器相关的常用命令
 
